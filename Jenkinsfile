@@ -44,13 +44,14 @@ node {
 	
 stage('Deploy to other environments') {
     if (env.BRANCH_NAME != 'main') {
+	echo env.BRANCH_NAME    
         echo 'run this stage - when branch is not equal to master'
     }
 }
 	
 	
        stage('Deploy') {
-	        if (env.BRANCH_NAME == 'main') {
+	        if (env.BRANCH_NAME = 'main') {
 			input 'Do you approve deployment to production?'
 		        sh ' kubectl apply -f manifests/ -n prod '
 		}       
