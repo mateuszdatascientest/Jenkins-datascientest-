@@ -32,7 +32,7 @@ node {
 		sh ' curl -L https://github.com/kubernetes/kompose/releases/download/v1.33.0/kompose-linux-amd64 -o kompose '
 		sh ' chmod +x kompose'
 		sh '  ./kompose convert -f  docker-compose.yml'
-		sh '  mkdir manifests'
+		sh '  mkdir -p manifests'
 		sh '  mv *.yaml manifests'
         }
 
