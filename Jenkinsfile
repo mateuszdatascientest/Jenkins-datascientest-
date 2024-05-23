@@ -35,5 +35,9 @@ node {
 		sh '  mkdir manifests'
 		sh '  mv *.yaml manifests'
         }
-      
+
+       stage('Deploy') {
+		sh ' kubectl get pods '
+        }
+	
         }
