@@ -55,7 +55,7 @@ stage('Deploy to other environments') {
 	
        stage('Deploy') {
 	       script {
-	        if (env.BRANCH_NAME = 'main') {
+	        if (env.BRANCH_NAME == 'main') {
 			input 'Do you approve deployment to production?'
 		        sh ' kubectl apply -f manifests/ -n prod '
 		}      
