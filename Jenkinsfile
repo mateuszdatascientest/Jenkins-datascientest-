@@ -43,27 +43,17 @@ node {
         }
 	
 stage('Deploy to other environments') {
-    when {
-        expression {
-            return env.BRANCH_NAME != 'master';
-        }
-    }
-    steps {
+    if (env.BRANCH_NAME != 'main') {
         echo 'run this stage - when branch is not equal to master'
     }
 }
 	
 	
        stage('Deploy') {
-	         when {
-		        expression {
-		            return env.BRANCH_NAME = 'main';
-		        }
-		    }
-		    steps {
+	        if (env.BRANCH_NAME == 'main') {
 			input 'Do you approve deployment to production?'
 		        sh ' kubectl apply -f manifests/ -n prod '
-		    }       
+		}       
         }
 	
         }
