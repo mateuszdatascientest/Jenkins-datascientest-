@@ -1,6 +1,11 @@
 node {    
       def app1 
-      def app2   
+      def app2
+	
+      environment {
+     			BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
+      }
+	
       stage('Clone repository') {               
              
             checkout scm    
@@ -37,6 +42,8 @@ node {
         }
 
        stage('Deploy') {
+	
+	        sh "echo 'branchName: ${BRANCH_NAME}'"
 		sh ' kubectl get pods '
         }
 	
