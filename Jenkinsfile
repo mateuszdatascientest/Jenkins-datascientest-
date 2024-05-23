@@ -5,7 +5,7 @@ node {
              
             checkout scm    
       }
-      parallel {
+
                   stage('Build cast-service image') {         
                         app1 = docker.build("mateuszptrk/cast-service", "./cast-service")   
                    }     
@@ -13,7 +13,7 @@ node {
                      stage('Build movie-service image') {         
                         app2 = docker.build("mateuszptrk/movie-service", "./movie-service")    
                    }     
-       }
+
        stage('Push cast-service image') {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
               app1.push("${env.BUILD_NUMBER}")            
