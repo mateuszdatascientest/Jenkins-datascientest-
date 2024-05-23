@@ -44,7 +44,7 @@ node {
 
        stage('Deploy') {
 	
-	        sh "echo env.GIT_BRANCH"
+	        sh "printenv"
 		sh ' kubectl get pods '
         }
 	
