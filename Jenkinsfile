@@ -41,11 +41,29 @@ node {
 		sh '  mkdir -p manifests'
 		sh '  mv *.yaml manifests'
         }
-
-       stage('Deploy') {
 	
-	        sh "printenv"
-		sh ' kubectl get pods '
+stage('Deploy to other environments') {
+    when {
+        expression {
+            return env.BRANCH_NAME != 'master';
+        }
+    }
+    steps {
+        echo 'run this stage - when branch is not equal to master'
+    }
+}
+	
+	
+       stage('Deploy') {
+	         when {
+		        expression {
+		            return env.BRANCH_NAME = 'main';
+		        }
+		    }
+		    steps {
+			input 'Do you approve deployment to production?'
+		        sh ' kubectl apply -f manifests/ -n prod '
+		    }       
         }
 	
         }
