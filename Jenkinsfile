@@ -37,16 +37,35 @@ node {
 		sh '  mv *.yaml manifests'
         }
 	
-stage('Deploy to other environments') {
+stage('Deploy to dev') {
 		       script {
     FULL_PATH_BRANCH = sh(script:'git name-rev --name-only HEAD', returnStdout: true)		       
-    if ( FULL_PATH_BRANCH != 'main') {
+    if ( FULL_PATH_BRANCH == 'dev') {
 	echo env.BRANCH_NAME    
-        echo 'run this stage - when branch is not equal to master'
+		        sh ' kubectl apply -f manifests/ -n dev '
     } 
 		       }
 }
-	
+
+stage('Deploy to QA') {
+		       script {
+    FULL_PATH_BRANCH = sh(script:'git name-rev --name-only HEAD', returnStdout: true)		       
+    if ( FULL_PATH_BRANCH == 'qa') {
+	echo env.BRANCH_NAME    
+		        sh ' kubectl apply -f manifests/ -n qa '
+    } 
+		       }
+}
+
+	stage('Deploy to Staging') {
+		       script {
+    FULL_PATH_BRANCH = sh(script:'git name-rev --name-only HEAD', returnStdout: true)		       
+    if ( FULL_PATH_BRANCH == 'staging') {
+	echo env.BRANCH_NAME    
+		        sh ' kubectl apply -f manifests/ -n staging '
+    } 
+		       }
+}
 	
        stage('Deploy') {
 	       script {
