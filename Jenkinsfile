@@ -40,7 +40,7 @@ node {
 stage('Deploy to other environments') {
 		       script {
     FULL_PATH_BRANCH = sh(script:'git name-rev --name-only HEAD', returnStdout: true)		       
-    if (${FULL_PATH_BRANCH} != 'main') {
+    if ( FULL_PATH_BRANCH != 'main') {
 	echo env.BRANCH_NAME    
         echo 'run this stage - when branch is not equal to master'
     } 
@@ -51,7 +51,7 @@ stage('Deploy to other environments') {
        stage('Deploy') {
 	       script {
 		FULL_PATH_BRANCH = sh(script:'git name-rev --name-only HEAD', returnStdout: true)		       
-	        if (${FULL_PATH_BRANCH} == 'main') {
+	        if ( FULL_PATH_BRANCH == 'main') {
 			input 'Do you approve deployment to production?'
 		        sh ' kubectl apply -f manifests/ -n prod '
 		}      
