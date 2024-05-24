@@ -67,7 +67,7 @@ stage('Deploy to QA') {
 		       }
 }
 	
-       stage('Deploy') {
+       stage('Deploy to production') {
 	       script {
 		FULL_PATH_BRANCH = sh(script:'git name-rev --name-only HEAD', returnStdout: true)		       
 	        if ( FULL_PATH_BRANCH == 'main') {
