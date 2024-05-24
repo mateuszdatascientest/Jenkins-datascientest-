@@ -2,11 +2,6 @@ node {
       def app1 
       def app2
 
-	environment {
-    FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
-    GIT_BRANCH = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())
-  }
-	
       stage('Clone repository') {               
              
             checkout scm    
@@ -44,8 +39,8 @@ node {
 	
 stage('Deploy to other environments') {
 		       script {
-
-    if (env.BRANCH_NAME != 'main') {
+    FULL_PATH_BRANCH = sh(script:'git name-rev --name-only HEAD', returnStdout: true)		       
+    if (${FULL_PATH_BRANCH} != 'main') {
 	echo env.BRANCH_NAME    
         echo 'run this stage - when branch is not equal to master'
     } 
@@ -55,7 +50,8 @@ stage('Deploy to other environments') {
 	
        stage('Deploy') {
 	       script {
-	        if (env.BRANCH_NAME == 'main') {
+		FULL_PATH_BRANCH = sh(script:'git name-rev --name-only HEAD', returnStdout: true)		       
+	        if (${FULL_PATH_BRANCH} == 'main') {
 			input 'Do you approve deployment to production?'
 		        sh ' kubectl apply -f manifests/ -n prod '
 		}      
